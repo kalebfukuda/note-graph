@@ -1,0 +1,12 @@
+Para rodar o backend:
+
+No CMD, dentro da pasta backend C:\Users\kaleb\Programacao\note-graph\backend rodar
+o seguinte comando:
+.venv\Scripts\activate
+
+Para instalacao das dependencias:
+pip install fastapi uvicorn openai python-dotenv
+
+Rodar o FastAPI
+uvicorn app.main:app --reload
+

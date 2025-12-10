@@ -1,0 +1,23 @@
+# Ignore environment files
+.env
+.env*
+
+# Ignore virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Node modules (frontend)
+node_modules/
+
+# Build artifacts
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
