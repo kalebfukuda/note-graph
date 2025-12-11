@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import analyze
+from app.db.session import engine
+print(engine.connect())
 
 app = FastAPI()
 
