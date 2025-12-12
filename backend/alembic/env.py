@@ -13,7 +13,12 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 from app.db.base import Base
-import app.models
+# IMPORTANT: Import all models here so Alembic sees them
+from app.models.note import Note
+from app.models.graph import Graph
+from app.models.node import Node
+from app.models.edge import Edge
+from app.models.ambiguity import Ambiguity
 
 target_metadata = Base.metadata
 
