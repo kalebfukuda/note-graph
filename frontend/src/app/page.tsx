@@ -1,12 +1,11 @@
 import GraphView from "@/components/GraphView";
 import NotesList from "@/components/NotesList";
-import MainMenu from "@/components/MainMenu";
+import NavMenu from "@/components/NavMenu";
 
 export default function Home() {
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Note Graph</h1>
-      <MainMenu />
+      <NavMenu />
       <NotesList></NotesList>
       <GraphView />
     </main>
