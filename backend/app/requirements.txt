@@ -5,7 +5,7 @@ o seguinte comando:
 .venv\Scripts\activate
 
 Para instalacao das dependencias:
-pip install fastapi uvicorn openai python-dotenv
+pip install fastapi uvicorn openai python-dotenv sqlalchemy alembic psycopg2-binary pydantic-settings
 
 Rodar o FastAPI
 uvicorn app.main:app --reload
