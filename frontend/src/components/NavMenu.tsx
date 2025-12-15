@@ -30,61 +30,77 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 
+// Pages import
+import CreateNote from "@/components/pages/CreateNote";
+
 const navListMenuItems = [
   {
     title: "Notes",
     description: "Find list of all notes",
     icon: SquaresPlusIcon,
+    action: "notes",
   },
   {
     title: "About Us",
     description: "Meet and learn about our dedication",
     icon: UserGroupIcon,
+    action: "#",
   },
 ];
 
-function NavListMenu() {
+type NavListMenuProps = {
+  actionsMap: Record<string, () => void>;
+};
+
+function NavListMenu({ actionsMap }: NavListMenuProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
   const renderItems = navListMenuItems.map(
-    ({ icon, title, description }, key) => (
-      <a href="#" key={key}>
-        <MenuItem className="flex items-center gap-3 rounded-lg">
-          <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
-            {" "}
-            {React.createElement(icon, {
-              strokeWidth: 2,
-              className: "h-6 text-gray-900 w-6",
-            })}
-          </div>
-          <div>
-            <Typography
-              variant="h6"
-              color="blue-gray"
-              className="flex items-center text-sm font-bold"
-            >
-              {title}
-            </Typography>
-            <Typography
-              variant="paragraph"
-              className="text-xs !font-medium text-blue-gray-500"
-            >
-              {description}
-            </Typography>
-          </div>
-        </MenuItem>
-      </a>
+    ({ icon, title, description, action }, key) => (
+      <MenuItem
+        key={key}
+        className="flex items-center gap-3 rounded-lg"
+        onClick={() => {
+          actionsMap[action]?.();
+          setIsMenuOpen(false);
+          setIsMobileMenuOpen(false);
+        }}
+      >
+        <div className="flex items-center justify-center rounded-lg bg-blue-gray-50 p-2">
+          {React.createElement(icon, {
+            strokeWidth: 2,
+            className: "h-6 w-6 text-gray-900",
+          })}
+        </div>
+
+        <div>
+          <Typography
+            variant="h6"
+            color="blue-gray"
+            className="text-sm font-bold"
+          >
+            {title}
+          </Typography>
+          <Typography
+            variant="paragraph"
+            className="text-xs font-medium text-blue-gray-500"
+          >
+            {description}
+          </Typography>
+        </div>
+      </MenuItem>
     )
   );
 
   return (
-    <React.Fragment>
+    <>
       <Menu
         open={isMenuOpen}
         handler={setIsMenuOpen}
         offset={{ mainAxis: 20 }}
         placement="bottom"
-        allowHover={true}
+        allowHover
       >
         <MenuHandler>
           <Typography as="div" variant="small" className="font-medium">
@@ -109,86 +125,87 @@ function NavListMenu() {
             </ListItem>
           </Typography>
         </MenuHandler>
+
         <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
-          <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
-            {renderItems}
-          </ul>
+          <ul className="grid grid-cols-3 gap-y-2">{renderItems}</ul>
         </MenuList>
       </Menu>
+
       <div className="block lg:hidden">
         <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
-function NavList() {
+type NavListProps = {
+  actionsMap: Record<string, () => void>;
+};
+
+function NavList({ actionsMap }: NavListProps) {
   return (
     <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
-      <Typography
-        as="a"
-        href="#"
-        variant="small"
-        color="blue-gray"
-        className="font-medium"
-      >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
+      <Typography as="a" href="#" variant="small" className="font-medium">
+        <ListItem className="py-2 pr-4">Home</ListItem>
       </Typography>
-      <NavListMenu />
-      <Typography
-        as="a"
-        href="#"
-        variant="small"
-        color="blue-gray"
-        className="font-medium"
-      >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">
-          Contact Us
-        </ListItem>
+
+      <NavListMenu actionsMap={actionsMap} />
+
+      <Typography as="a" href="#" variant="small" className="font-medium">
+        <ListItem className="py-2 pr-4">Contact Us</ListItem>
       </Typography>
     </List>
   );
 }
 
-export default function NavMenu() {
+type NavMenuProps = {
+  openOffcanvas: (title: string, content: React.ReactNode) => void;
+};
+
+export default function NavMenu({ openOffcanvas }: NavMenuProps) {
   const [openNav, setOpenNav] = React.useState(false);
 
+  const actionsMap = {
+    notes: () => openOffcanvas("Create Note", <CreateNote />),
+  };
+
   React.useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
-    );
+    const handleResize = () => {
+      if (window.innerWidth >= 960) {
+        setOpenNav(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <Navbar className="mx-auto max-w-screen-xl px-4 py-2">
       <div className="flex items-center justify-between text-blue-gray-900">
-        <Typography
-          as="a"
-          href="#"
-          variant="h6"
-          className="mr-4 cursor-pointer py-1.5 lg:ml-2"
-        >
+        <Typography variant="h6" className="mr-4 cursor-pointer">
           Note Graph
         </Typography>
+
         <div className="hidden lg:block">
-          <NavList />
+          <NavList actionsMap={actionsMap} />
         </div>
+
         <IconButton
           variant="text"
-          color="blue-gray"
           className="lg:hidden"
-          onClick={() => setOpenNav(!openNav)}
+          onClick={() => setOpenNav((cur) => !cur)}
         >
           {openNav ? (
-            <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+            <XMarkIcon className="h-6 w-6" />
           ) : (
-            <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+            <Bars3Icon className="h-6 w-6" />
           )}
         </IconButton>
       </div>
+
       <Collapse open={openNav}>
-        <NavList />
+        <NavList actionsMap={actionsMap} />
       </Collapse>
     </Navbar>
   );
