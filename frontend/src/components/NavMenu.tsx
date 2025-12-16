@@ -166,7 +166,7 @@ export default function NavMenu({ openOffcanvas }: NavMenuProps) {
   const [openNav, setOpenNav] = React.useState(false);
 
   const actionsMap = {
-    notes: () => openOffcanvas("Create Note", <CreateNote />),
+    notes: () => openOffcanvas("Your Notes", <CreateNote />),
   };
 
   React.useEffect(() => {

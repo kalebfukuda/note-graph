@@ -19,3 +19,16 @@ export async function getAllNotes(): Promise<Note[]> {
   const data: Note[] = await res.json();
   return data;
 }
+
+export async function createNote(note: Omit<Note, "id">): Promise<Note> {
+  const res = await fetch("http://localhost:8000/notes/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(note),
+  });
+
+  if (!res.ok) throw new Error("Failed to create note");
+
+  const data: Note = await res.json();
+  return data;
+}
