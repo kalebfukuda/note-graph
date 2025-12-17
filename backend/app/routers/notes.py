@@ -29,3 +29,19 @@ def get_notes(db: Session = Depends(get_db)):
         }
         for note in notes
     ]
+
+@router.post("/", response_model=dict)
+def create_note(note: dict, db: Session = Depends(get_db)):
+    """
+    Creates a new note in the database
+    """
+    new_note = Note(title=note["title"], content=note["content"])
+    db.add(new_note)
+    db.commit()
+    db.refresh(new_note)
+    return {
+        "id": new_note.id,
+        "title": new_note.title,
+        "content": new_note.content,
+        "created_at": new_note.created_at.isoformat(),
+    }

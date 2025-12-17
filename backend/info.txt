@@ -1,1 +1,7 @@
 http://127.0.0.1:8000/docs#/
+
+Inside backend folder open a cmd:
+
+.\.venv\Scripts\activate
+starta o servidor
+uvicorn app.main:app --reload
