@@ -10,19 +10,23 @@ import {
   List,
   ListItem,
 } from "@material-tailwind/react";
-import { getAllNotes } from "@/services/notes/note";
+import { getAllNotes, createNote } from "@/services/notes/note";
 import { Note } from "@/services/notes/types";
 import { PlusIcon } from "@heroicons/react/24/solid";
 
 export default function CreateNote() {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((cur) => !cur);
 
-  const addNoteClick = () => {
-    alert("Add Note clicked!");
-  };
+  async function addNoteClick() {
+    const note = { title, content }<Note>;
+    const newNote = await createNote(note);
+    setNotes((prevNotes) => [...prevNotes, newNote]);
+  }
 
   useEffect(() => {
     getAllNotes()
@@ -41,10 +45,18 @@ export default function CreateNote() {
           <Card className="my-2 w-100">
             <CardBody>
               <div className="mb-2">
-                <Input label="Note Title" />
+                <Input
+                  label="Note Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
               </div>
               <div className="mb-2">
-                <Input label="Note Content" />
+                <Input
+                  label="Note Content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
               </div>
               <div>
                 <Button onClick={addNoteClick} className="w-full">
