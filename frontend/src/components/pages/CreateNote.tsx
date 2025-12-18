@@ -23,9 +23,12 @@ export default function CreateNote() {
   const toggleOpen = () => setOpen((cur) => !cur);
 
   async function addNoteClick() {
-    const note = { title, content }<Note>;
+    const note = { title, content } as Note;
     const newNote = await createNote(note);
     setNotes((prevNotes) => [...prevNotes, newNote]);
+    setTitle("");
+    setContent("");
+    setOpen(false);
   }
 
   useEffect(() => {
@@ -68,14 +71,16 @@ export default function CreateNote() {
         </Collapse>
       </div>
 
-      <List>
-        {notes.map((note) => (
-          <ListItem key={note.id} className="flex flex-col items-start">
-            <strong className="text-sm">{note.title}</strong>
-            <span className="text-sm text-blue-gray-500">{note.content}</span>
-          </ListItem>
-        ))}
-      </List>
+      <div className="max-h-96 overflow-y-auto">
+        <List>
+          {notes.map((note, index) => (
+            <ListItem key={index} className="flex flex-col items-start">
+              <strong className="text-sm">{note.title}</strong>
+              <span className="text-sm text-blue-gray-500">{note.content}</span>
+            </ListItem>
+          ))}
+        </List>
+      </div>
     </>
   );
 }

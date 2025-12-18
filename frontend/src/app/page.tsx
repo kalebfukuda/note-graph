@@ -20,9 +20,12 @@ export default function Home() {
 
   return (
     <main className="p-8">
-      <NavMenu openOffcanvas={openOffcanvas} />
-      <NotesList></NotesList>
-      <GraphView />
+      <div>
+        <NavMenu openOffcanvas={openOffcanvas} />
+      </div>
+      <div className="mt-4">
+        <GraphView />
+      </div>
       <OffCanvas
         open={openCanvas}
         onClose={() => setOpenCanvas(false)}
