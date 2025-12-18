@@ -1,0 +1,37 @@
+npm run dev
+
+1️⃣ Framework principal
+
+Next.js 13+ (--app dir, TypeScript) → framework React moderno para SSR, SSG, e App Router.
+
+2️⃣ Linguagem
+
+TypeScript → tipagem estática para React e Next.js.
+
+3️⃣ CSS / Estilização
+
+Tailwind CSS 3 → utilitário de CSS moderno, instalado e funcionando.
+
+PostCSS → usado internamente pelo Tailwind para processamento CSS.
+
+4️⃣ Linter / Formatação
+
+ESLint → análise de código.
+
+Prettier (possível integração com ESLint).
+
+5️⃣ Gerenciamento de estado
+
+Zustand → store simples para gerenciar estado do grafo (nodes, edges) globalmente.
+
+6️⃣ Visualização de grafos
+
+React Flow (reactflow) → biblioteca para grafos interativos, com drag & drop, edges e mini-map.
+
+7️⃣ Outros utilitários
+
+"@/*" → alias para imports, configurado no Next.js.
+
+"react" e "react-dom" → pacotes padrão do React.
+
+"dotenv" ou similar não é necessário no frontend, mas usado no backend.
